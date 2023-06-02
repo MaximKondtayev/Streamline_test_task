@@ -1,17 +1,40 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div class="main-wrapper">
+      <div class="tree">
+        <div class="buttons">
+              <div class="buttons--item" @click="expandColapseClick(true)">Expand</div>
+              <div class="buttons--item"  @click="expandColapseClick(false)">Collapse</div>
+          </div>
+        <TreeView :treeData="treeData" ref="childComponentRef"></TreeView>
+      </div>
+      <TreeList></TreeList>
+    </div>
+    
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+
+import TreeView from './components/TreeView.vue';
+import TreeList from './components/TreeList.vue';
+import treeData from './data.json'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    TreeView,
+    TreeList
+  },
+  data() {
+    return {
+      treeData: treeData.tree.cat,
+    };
+  },
+  methods: {
+    expandColapseClick(expand) {
+      this.$refs.childComponentRef.expandChilds(expand);
+    }
   }
 }
 </script>
@@ -24,5 +47,28 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+.main-wrapper {
+  display: flex;
+  align-items: start;
+}
+.tree {
+  border: 1px solid black;
+  min-height: 500px;
+  padding: 15px;
+  border-radius: 16px;
+}
+.buttons {
+  margin-bottom: 15px;
+  &--item {
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 6px;
+    margin-left: 10px;
+    background-color: #2c3e50;
+    color: white;
+  }
+  display: flex;
+  
 }
 </style>
